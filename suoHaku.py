@@ -1,6 +1,15 @@
+# (C) Julius Maylett 2021-2022, Forus Oy
+# Ohjelma hakee XML-muodossa kiinteistörajoja annettujen rajojen sisältä. 
+# Lue README!
+
+import os
 import json
 import requests
 from geojson import FeatureCollection
+
+
+# Määritä työtiedosto, joka on samassa hakemistossa tämän ajotiedoston kanssa.
+fileName = "suopellot.geojson"
 
 def CQLString(geometry):
     CQLStatement = "CQL_FILTER=INTERSECTS(geometry,POLYGON(("
@@ -13,21 +22,27 @@ def CQLString(geometry):
     return CQLStatement
 
 def CPXML(geometry):
+    # Tehdään intersectiohaku annetun geometrian avulla käyttäen CQLSTATEMENTIA
     cql_String = CQLString(geometry)
     CPURL = "https://inspire-wfs.maanmittauslaitos.fi/inspire-wfs/cp/wfs?srsName=EPSG:3067&SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&"\
     "TYPENAMES=cp:CadastralParcel&TYPENAME=cp:CadastralParcel&STARTINDEX=0&COUNT=200000&SRSNAME=EPSG:3067&" + cql_String
-    r = requests.get(CPURL)
+    r = requests.get(CPURL) # Haku on erittäin hidas, kärsivällisyyttä
     return r.text
 
-with open('Klusterit128.geojson') as f:
+with open(fileName) as f:
     data = json.load(f)
 
 feature_collection = FeatureCollection(data)
 
 i = 0
 
+# Huolehditaan, että output-kansio on olemassa
+if not os.path.isdir('./output'):
+    os.mkdir('output') 
+
 for feature in feature_collection['features']:
 
+    # Haetaan geometria, ja määritellään tiedoston nimeksi fid-tunniste
     xml = CPXML(feature['geometry']['coordinates'][0])
     fid = feature['properties']['fid']
 
