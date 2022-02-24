@@ -7,9 +7,8 @@ import json
 import requests
 from geojson import FeatureCollection
 
-
 # Määritä työtiedosto, joka on samassa hakemistossa tämän ajotiedoston kanssa.
-fileName = "suopellot.geojson"
+fileName = "testi.geojson"
 
 def CQLString(geometry):
     CQLStatement = "CQL_FILTER=INTERSECTS(geometry,POLYGON(("
@@ -36,12 +35,15 @@ feature_collection = FeatureCollection(data)
 
 i = 0
 
+print("Started")
+
 # Huolehditaan, että output-kansio on olemassa
 if not os.path.isdir('./output'):
     os.mkdir('output') 
 
 for feature in feature_collection['features']:
 
+    print("Collecting CP data from NLS...")
     # Haetaan geometria, ja määritellään tiedoston nimeksi fid-tunniste
     xml = CPXML(feature['geometry']['coordinates'][0])
     fid = feature['properties']['fid']
@@ -51,3 +53,6 @@ for feature in feature_collection['features']:
 
     i += 1
     print("Completed:" , i , "/" , len(feature_collection['features']))
+
+
+print("Finished")
