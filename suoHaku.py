@@ -1,6 +1,5 @@
 # (C) Julius Maylett 2021-2022, Forus Oy
 # Ohjelma hakee XML-muodossa kiinteistörajoja annettujen rajojen sisältä. 
-# Lue README!
 
 import os
 import json
