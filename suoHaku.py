@@ -41,6 +41,8 @@ print("Started")
 if not os.path.isdir('./output'):
     os.mkdir('output') 
 
+print(len(feature_collection['features']) + " areas to handle...")
+
 for feature in feature_collection['features']:
 
     print("Collecting CP data from NLS...")
