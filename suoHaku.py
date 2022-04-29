@@ -48,6 +48,8 @@ if not os.path.isdir('./output'):
     # Huolehditaan, että output-kansio on olemassa
     os.mkdir('output') 
 
+print(len(feature_collection['features']) + " areas to handle...")
+
 for feature in feature_collection['features']:
    
     if (feature['geometry']['type'] == 'MultiPolygon'): 
