@@ -37,7 +37,7 @@ def writeXML(fid, xml, NEXT_INDEX=None):
     else: fileString = 'output/{}_{}.xml'.format(fid, NEXT_INDEX)
     with open(fileString, 'w') as f:
         f.write(xml)
-        NEXT_INDEX =+ 1
+        NEXT_INDEX += 1
 
 ## STARTING ##
 with open(file) as f: data = json.load(f)
@@ -59,6 +59,6 @@ for feature in feature_collection['features']:
         NEXT_INDEX = 0
     if (feature['geometry']['type'] == 'Polygon'): writeXML(feature['properties']['fid'], CPXML(feature['geometry']['coordinates'][0]))
     print("Completed:" , i , "/" , len(feature_collection['features']))
-    i =+ 1
+    i += 1
 
 print("Finished")
