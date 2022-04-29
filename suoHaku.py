@@ -28,8 +28,8 @@ def CPXML(geometry):
     "srsName=EPSG:3067&SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&"\
     "TYPENAMES=cp:CadastralParcel&TYPENAME=cp:CadastralParcel&STARTINDEX=0&"\
     "COUNT=200000&SRSNAME=EPSG:3067&" + cql_String
-    #r = requests.get(CPURL) # Haku on erittäin hidas, kärsivällisyyttä
-    return "r.text"
+    r = requests.get(CPURL) # Haku on erittäin hidas, kärsivällisyyttä
+    return r.text
     
 
 def writeXML(fid, xml, NEXT_INDEX=None):
