@@ -28,8 +28,8 @@ def CPXML(geometry):
     "srsName=EPSG:3067&SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&"\
     "TYPENAMES=cp:CadastralParcel&TYPENAME=cp:CadastralParcel&STARTINDEX=0&"\
     "COUNT=200000&SRSNAME=EPSG:3067&" + cql_String
-    r = requests.get(CPURL) # Haku on erittäin hidas, kärsivällisyyttä
-    return r.text
+    #r = requests.get(CPURL) # Haku on erittäin hidas, kärsivällisyyttä
+    return "r.text"
     
 
 def writeXML(fid, xml, NEXT_INDEX=None):
@@ -56,6 +56,7 @@ for feature in feature_collection['features']:
     if (feature['geometry']['type'] == 'MultiPolygon'): 
         for poly in feature['geometry']['coordinates']: 
             writeXML(feature['properties']['fid'], CPXML(poly[0]), NEXT_INDEX)
+            NEXT_INDEX += 1
         NEXT_INDEX = 0
     if (feature['geometry']['type'] == 'Polygon'): writeXML(feature['properties']['fid'], CPXML(feature['geometry']['coordinates'][0]))
     print("Completed:" , i , "/" , len(feature_collection['features']))
